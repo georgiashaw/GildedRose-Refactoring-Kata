@@ -95,16 +95,20 @@ updateQuality() {
     }
   }
 
-    for (let i = 0; i < this.items.length; i++) {
-      if (this.notAgedBrie(this.items[i].name) && this.notBackstagePass(this.items[i].name)) {
-        if (this.qualityGreaterThanZero(this.items[i].quality)) {
-          if (this.notSulfuras(this.items[i].name)) {
-            this.items[i].quality = this.items[i].quality - 1;
-          }
+  const adjustQualityOfNonMagicalItems = (i) => {
+    if (this.notAgedBrie(this.items[i].name) && this.notBackstagePass(this.items[i].name)) {
+      if (this.qualityGreaterThanZero(this.items[i].quality)) {
+        if (this.notSulfuras(this.items[i].name)) {
+          this.items[i].quality = this.items[i].quality - 1;
         }
-      } else {
-        handleQualityInBrieAndBackstagePass(i)
       }
+    } else {
+      handleQualityInBrieAndBackstagePass(i)
+    }
+  }
+
+    for (let i = 0; i < this.items.length; i++) {
+      adjustQualityOfNonMagicalItems(i)
       reduceSellIn(i)
       if (this.items[i].sellIn < 0) {
         adjustQualityOfMagicalItems(i)
