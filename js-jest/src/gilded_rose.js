@@ -71,6 +71,24 @@ updateQuality() {
     }
   }
 
+  const adjustQualityOfMagicalItems = (i) => {
+    if (this.notAgedBrie(this.items[i].name)) {
+      if (this.notBackstagePass(this.items[i].name)) {
+        if (this.items[i].quality > 0) {
+          if (this.notSulfuras(this.items[i].name)) {
+            this.items[i].quality = decrementQualityByOne(this.items[i].quality);
+          }
+        }
+      } else {
+        this.items[i].quality = this.items[i].quality - this.items[i].quality;
+      }
+    } else {
+      if (this.qualityLessThanFifty(this.items[i].quality)) {
+        this.incrementByOne(this.items[i].quality)
+      }
+    }
+  }
+
     for (let i = 0; i < this.items.length; i++) {
       if (this.notAgedBrie(this.items[i].name) && this.notBackstagePass(this.items[i].name)) {
         if (this.qualityGreaterThanZero(this.items[i].quality)) {
@@ -85,21 +103,7 @@ updateQuality() {
         this.items[i].sellIn = this.items[i].sellIn - 1;
       }
       if (this.items[i].sellIn < 0) {
-        if (this.notAgedBrie(this.items[i].name)) {
-          if (this.notBackstagePass(this.items[i].name)) {
-            if (this.items[i].quality > 0) {
-              if (this.notSulfuras(this.items[i].name)) {
-                this.items[i].quality = decrementQualityByOne(this.items[i].quality);
-              }
-            }
-          } else {
-            this.items[i].quality = this.items[i].quality - this.items[i].quality;
-          }
-        } else {
-          if (this.qualityLessThanFifty(this.items[i].quality)) {
-            this.incrementByOne(this.items[i].quality)
-          }
-        }
+        adjustQualityOfMagicalItems(i)
       }
     }
 
